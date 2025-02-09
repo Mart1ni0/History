@@ -1,34 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Тест №1</title>
     <script src="../js/questions1.js" defer></script>
     <script src="../js/index.js" defer></script>
+    <script src="../js/search.js" defer></script>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <nav class="navigation">
-        <a href="../index.html">Головна сторінка</a>
-        <a href="./topic1.html">Державотворчі процеси та стан економіки</a>
-        <a href="./topic2.html">Міжнародні відносини України. Помаранчева революція</a>
-        <a href="./topic3.html">Суспільно-політичне життя України у 2005-2013 рр.</a>
+        <a href="../index.html">Головна</a>
         <a href="./about.html">Про мене</a>
         <div class="dropdown">
-            <a class="dropdown-button">Тестування</a>
+            <a class="dropdown-button">Розділ ⌄</a>
             <div class="dropdown-content">
-                <a href="test1.html">Тест №1</a>
-                <a href="test2.html">Тест №2</a>
-                <a href="test3.html">Тест №3</a>
+                <a href="./topic1.html">Державотворчі процеси та стан економіки</a>
+                <a href="./topic2.html">Міжнародні відносини України. Помаранчева революція</a>
+                <a href="./topic3.html">Суспільно-політичне життя України у 2005-2013 рр.</a>
             </div>
         </div>
+        <div class="dropdown">
+            <a class="dropdown-button">Тестування ⌄</a>
+            <div class="dropdown-content">
+                <a href="./test1.html">Тест №1</a>
+                <a href="./test2.html">Тест №2</a>
+                <a href="./test3.html">Тест №3</a>
+            </div>
+        </div>
+        <div class="search-box">
+            <input type="text" placeholder="Search..." class="search-input">
+            <button class="search-button">
+                🔍
+            </button>
+            <div id="search-results"></div>
+        </div>
     </nav>
-
+    <h1>Державотворчі процеси та стан економіки</h1>
     <main>
         <div id="quiz-container"></div>
         <button id="submitBtn">Перевірити</button>
         <div id="result"></div>
     </main>
 </body>
+
 </html>

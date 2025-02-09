@@ -5,22 +5,32 @@
     box-sizing: border-box;
 }
 
+.main {
+    background-image: url('./src/background3.svg');
+    background-size: 75%;
+    background-position: 50% 0%;
+    background-repeat: no-repeat;
+    background-color: #333;
+    color: white
+}
+
 nav {
-    background-color: #333333;
+    background-color: #2F3C7E;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
-    gap: 10px;
+    gap: 30px;
     position: sticky;
+    top: 0;
     padding: 10px;
     width: 100%;
     z-index: 1000;
 }
 
 nav a {
-    color: #fff;
+    color: #FBEAEB;
     text-wrap: nowrap;
     text-decoration: none;
     padding: 10px 20px;
@@ -28,25 +38,25 @@ nav a {
 }
 
 nav a:hover {
-    background-color: #555555;
+    background-color: #1d2652;
     transition: background-color 0.3s ease;
 }
 
 .dropdown {
     position: relative;
     display: inline-block;
-    color: #fff;
-    background-color: #333333;
+    color: #333;
+    background-color: #2F3C7E;
 }
 
 .dropdown-button {
-    color: white;
+    /*color: #5b0e2d;*/
     border: none;
     cursor: pointer;
 }
 
 .dropdown-content {
-    background-color: #3d3d3d;
+    background-color: #2F3C7E;
     display: none;
     position: absolute;
     top: 140%;
@@ -74,7 +84,7 @@ main {
 h1 {
     font-size: 2rem;
     text-align: center;
-    margin-bottom: 1rem;
+    margin: 1rem 0;
 }
 
 h2 {
@@ -129,6 +139,19 @@ li {
     align-items: center;
 }
 
+/*picture hardcode*/
+.small {
+    width: 250px;
+}
+
+.medium {
+    width: 450px;
+}
+
+.big {
+    width: 700px;
+}
+
 .picture p {
     margin: 0 150px;
 }
@@ -137,7 +160,7 @@ li {
     margin-bottom: 20px;
     padding: 15px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 25px;
 }
 
 .answers {
@@ -190,6 +213,110 @@ select:focus {
     gap: 5px;
 }
 
+.correct {
+    border: 5px solid #4CAF50;
+}
+
+.wrong {
+    border: 5px solid crimson;
+}
+
+/*Search*/
+.search-box {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 5px 10px;
+    width: 100%;
+    max-width: 600px;
+    transition: 0.3s;
+    position: relative;
+}
+
+.search-input {
+    border: none;
+    outline: none;
+    flex: 1;
+    padding: 10px 15px;
+    border-radius: 50px;
+    font-size: 16px;
+    width: 100%;
+}
+
+.search-button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 5px 10px;
+    color: #666;
+    transition: 0.3s;
+}
+
+.search-box:hover,
+.search-input:focus {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.search-button:hover {
+    color: #333;
+}
+
+#search-results {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    z-index: 999;
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    display: none;
+}
+
+.search-result {
+    padding: 12px;
+    font-size: 14px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-bottom: 8px;
+    
+}
+.search-result a{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.search-result:hover {
+    background-color: #f0f0f0;
+    transform: scale(1.02);
+}
+
+.search-result:active {
+    transform: scale(0.98);
+}
+
+.search-result a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    display: block;
+    padding: 8px;
+}
+
+.search-result a:hover {
+    color: #007bff;
+}
+
+
 /* Загальні стилі для мобільних пристроїв */
 @media screen and (max-width: 768px) {
     body {
@@ -199,6 +326,10 @@ select:focus {
 
     .question-container img {
         width: 100%;
+    }
+
+    nav {
+        position: relative;
     }
 
     nav a {
@@ -223,6 +354,9 @@ select:focus {
         position: static;
         width: 100%;
     }
+    .search-result a {
+        color: white;
+    }
 
     h1,
     h2 {
@@ -244,6 +378,8 @@ select:focus {
 
     .picture p {
         margin: 0 25px;
+        text-align: center;
+        text-indent: 0;
     }
 
     ul {

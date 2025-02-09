@@ -1,6 +1,7 @@
 function generateQuestionBlock(questionNumber, questionText, answers, imageSrc = null, type) {
     const questionContainer = document.createElement('div');
     questionContainer.classList.add('question-container');
+    questionContainer.id = `q${questionNumber}`;
 
     const questionHeading = document.createElement('h2');
     questionHeading.textContent = `Запитання №${questionNumber}`;
@@ -39,7 +40,7 @@ function generateQuestionBlock(questionNumber, questionText, answers, imageSrc =
             text.textContent = `${i}  -`
 
             block = generateSelect('letter', 5)
-            block = blockNaming(block, questionNumber, i-1)
+            block = blockNaming(block, questionNumber, i - 1)
 
             container.classList.add('grid-container')
             block.classList.add('grid-item')
@@ -130,20 +131,47 @@ const resultDiv1 = document.getElementById('result');
 
 submitBtn1.addEventListener('click', () => {
     let score = 0;
-
+    clearParents()
     for (let i = 1; i <= answers.length; i++) {
         const selectedAnswer = Array.from(document.querySelectorAll(`input[name="q${i}"]:checked`)).map(input => input.value)
         let userOrder = Array.from(document.querySelectorAll(`select[name="q${i}"]`)).map(s => s.value);
 
-        if (answers[i - 1].length === 1)
-            if (selectedAnswer[0] === answers[i - 1]) score++;
-        if (answers[i - 1].length > 1) {
-            if (JSON.stringify(selectedAnswer) === JSON.stringify(answers[i - 1])) score++; // refactor later maybe     
+        if (answers[i - 1].length === 1) {
+            if (selectedAnswer[0] === answers[i - 1]) {
+                score++;
+                paintAnswers(i, 'correct')
+            }
+            else paintAnswers(i, 'wrong')
+        }else if (answers[i - 1].length > 1 && answers[i-1].length < 4) {
+            if (JSON.stringify(selectedAnswer) === JSON.stringify(answers[i - 1])) {// refactor later maybe
+                score++;
+                paintAnswers(i, 'correct')
+            }
+            else paintAnswers(i, 'wrong')
         }
-        if (answers[i - 1].length === 4) {
-            if (JSON.stringify(userOrder) === JSON.stringify(answers[i - 1])) score++; // refactor later maybe   
+        else if (answers[i - 1].length === 4) {
+            if (JSON.stringify(userOrder) === JSON.stringify(answers[i - 1])) {// refactor later maybe  
+                score++;
+                paintAnswers(i, 'correct')
+            }
+            else paintAnswers(i, 'wrong')
         }
     }
 
     resultDiv1.innerHTML = `Результат: ${score} з ${answers.length}`;
 });
+
+function clearParents() {
+    const parents = document.getElementsByClassName('question-container')
+    for (const parent of parents) {
+        parent.classList.remove('correct')
+        parent.classList.remove('wrong')
+    }
+}
+
+function paintAnswers(index, class_name, answer = null) {
+    const block = document.getElementById(`q${index}`)
+    block.classList.add(class_name)
+
+
+}
