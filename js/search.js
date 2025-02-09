@@ -1,70 +1,65 @@
-topics = [
-    "Державотворчі процеси та стан економіки",
-    "Тестування: Державотворчі процеси та стан економіки",
-    "Міжнародні відносини України. Помаранчева революція",
-    "Тестування: Міжнародні відносини України. Помаранчева революція",
-    "Суспільно-політичне життя України у 2005-2013 рр.",
-    "Тестування: Суспільно-політичне життя України у 2005-2013 рр."
-]
+document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.querySelector(".search-input");
+    const searchResults = document.getElementById("search-results");
+    const mainContent = document.querySelector("main");
 
-links = [
-    "topic1.html",
-    "test1.html",
-    "topic2.html",
-    "test2.html",
-    "topic3.html",
-    "test3.html"
-]
+    searchInput.addEventListener("input", function () {
+        const query = searchInput.value.trim().toLowerCase();
+        searchResults.innerHTML = "";
 
-function displayResults(results) {
-    const resultsContainer = document.getElementById("search-results");
-    resultsContainer.innerHTML = ''; 
-    
-    if (results.length === 0) {
-        resultsContainer.style.display = 'none';
-        return;
-    }
-
-    resultsContainer.style.display = 'block'; 
-
-    results.forEach(result => {
-        console.log(window.location.pathname.split('/').pop());
+        if (query.length === 0) {
+            searchResults.style.display = "none";
+            return;
+        }
         
-        const index = topics.indexOf(result)
-        const resultDiv = document.createElement('div');
-        resultDiv.classList.add('search-result');
-        const resultLink = document.createElement('a');
-        if (window.location.pathname.split('/').pop() === 'index.html') resultLink.setAttribute('href', `./view/${links[index]}`);
-        else resultLink.setAttribute('href', `./${links[index]}`);
-        resultLink.textContent = result;
-        resultDiv.appendChild(resultLink);
-        resultsContainer.appendChild(resultDiv);
+        let results = [];
+        const elementsToSearch = mainContent.querySelectorAll("h1, h2, h3, p, ul, ol, li");
+        
+        elementsToSearch.forEach(element => {
+            const text = element.textContent.toLowerCase();
+            
+            if (text.includes(query)) {
+                results.push({
+                    text: element.textContent,
+                    element: element
+                });
+            }    
+        });
+
+        if (results.length === 0) {
+            searchResults.innerHTML = "<p>Нічого не знайдено</p>";
+            return;
+        }
+
+        results.forEach(result => {
+            const resultElement = document.createElement("div");
+            resultElement.classList.add("search-result");
+            resultElement.innerHTML = highlightMatch(result.text, query);
+            resultElement.addEventListener("click", function () {
+                result.element.scrollIntoView({ behavior: "smooth", block: "center" });
+                result.element.classList.add("highlighted");
+                setTimeout(() => {
+                    result.element.classList.remove("highlighted");
+                }, 1500);
+            });
+            searchResults.appendChild(resultElement);
+        });
+        searchResults.style.display = "block"; 
     });
-}
 
-
-function handleSearch(event) {
-    const query = event.target.value.trim().toLowerCase();
-    
-    if (query === "") {
-        displayResults([]);  
-        return;
+    function highlightMatch(text, query) {
+        const regex = new RegExp(`(${query})`, "gi");
+        return text.replace(regex, "<mark>$1</mark>");
     }
 
-    const filteredTopics = topics.filter(topic => topic.toLowerCase().includes(query));
-    displayResults(filteredTopics);
-}
-
-document.querySelector('.search-input').addEventListener('input', handleSearch);
-
-document.querySelector('.search-button').addEventListener('click', () => {
-    const query = document.querySelector('.search-input').value.trim().toLowerCase();
-    
-    if (query === "") {
-        displayResults([]);
-        return;
-    }
-
-    const filteredTopics = topics.filter(topic => topic.toLowerCase().includes(query));
-    displayResults(filteredTopics);
+    searchInput.addEventListener("focus", function () {
+        if (searchInput.value.trim().length > 0) {
+            searchResults.style.display = "block";
+        }
+    });
+    searchInput.addEventListener("blur", function () {
+        setTimeout(() => {
+            searchResults.style.display = "none"; 
+        }, 200);
+    });
 });

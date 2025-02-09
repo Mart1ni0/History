@@ -19,7 +19,6 @@ nav {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: start;
     align-items: center;
     gap: 30px;
     position: sticky;
@@ -27,6 +26,9 @@ nav {
     padding: 10px;
     width: 100%;
     z-index: 1000;
+}
+.navigation{
+    justify-content: space-between;
 }
 
 nav a {
@@ -225,6 +227,7 @@ select:focus {
 .search-box {
     display: flex;
     align-items: center;
+    justify-content: end;
     background: #fff;
     border-radius: 50px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -278,6 +281,11 @@ select:focus {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     padding: 10px;
     display: none;
+}
+
+.highlighted {
+    background-color: yellow;
+    transition: background-color 0.5s ease-in-out;
 }
 
 .search-result {
