@@ -4,6 +4,12 @@
     padding: 0;
     box-sizing: border-box;
 }
+/*html {
+    scrollbar-width: none;
+}
+html::-webkit-scrollbar {
+    display: none;
+}*/
 
 .main {
     background-image: url('./src/background3.svg');
@@ -55,32 +61,64 @@ nav a:hover {
     /*color: #5b0e2d;*/
     border: none;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    white-space: nowrap;
+}
+
+.dropdown-button::after {
+    content: "";
+    position: absolute;
+    bottom: 10%;
+    left: 50%;
+    width: 80%;
+    height: 2px;
+    background-color: white;
+    transform: translateX(-50%);
+    transition: 0.3s ease-in-out;
+}
+
+.arrow {
+    font-size: 14px;
+    transition: transform 0.3s ease;
+}
+
+.dropdown:hover .arrow {
+    transform: rotate(180deg);
 }
 
 .dropdown-content {
     background-color: #2F3C7E;
     display: none;
     position: absolute;
-    top: 140%;
+    top: 100%;
     left: 0;
     min-width: 160px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     z-index: 1;
     padding: 5px;
+    min-width: 100%;
+    max-width: 400px;
+    width: auto;
 }
 
 .dropdown-content a {
     display: block;
     margin: 5px 0;
-}
-
-main {
-    padding: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .dropdown:hover .dropdown-content {
     display: block;
+}
+
+main {
+    padding: 20px;
 }
 
 h1 {
@@ -176,11 +214,89 @@ li {
 
 button {
     background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
     border: none;
-    border-radius: 3px;
     cursor: pointer;
+    text-align: center;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    min-width: 80px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.results {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    background-color: #2F3C7E;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    margin-top: 20px;
+}
+
+.hidden{
+    display: none;
+}
+
+.results div {
+    flex: 1;
+    text-align: center;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    min-width: 80px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+}
+
+#result {
+    background-color: #FFC107;
+}
+
+#right {
+    background-color: #4CAF50; 
+}
+
+#wrong {
+    background-color: #F44336;
+}
+
+#skip {
+    background-color: #607D8B;
+}
+
+.right-answer{
+    /*background-color: #4CAF50;
+    border-radius: 15px;*/
+    text-decoration: underline;
+    text-decoration-color: #4CAF50;
+    text-decoration-thickness: 4px;
+    text-underline-position: under;
+}
+
+.quadro-answer{
+    text-decoration: underline;
+    text-decoration-color: #4CAF50;
+    text-decoration-thickness: 4px;
+    text-underline-position: under;
+}
+
+.input-label-wrapper {
+    display: flex;
+    gap: 5px;
+    width: fit-content;
+    padding: 5px 15px 5px 0;
 }
 
 .leader {
@@ -210,10 +326,7 @@ select:focus {
     background: #777;
 }
 
-.input-label-wrapper {
-    display: flex;
-    gap: 5px;
-}
+
 
 .correct {
     border: 5px solid #4CAF50;
@@ -338,6 +451,9 @@ select:focus {
 
     nav {
         position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     nav a {
@@ -349,13 +465,34 @@ select:focus {
         padding: 8px 12px;
         background-color: #101113e8;
         border-radius: 5px;
+        width: auto;
+        min-width: 200px;
+        max-width: 50%  ;
+    }
+
+    .navigation-wrapper{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         width: 100%;
+    }
+    .navigation-wrapper a {
+        width: auto;
+        min-width: 200px;
+        max-width: 50%  ;
     }
 
     .dropdown {
         display: flex;
         flex-direction: column;
-        width: 100%;
+        width: auto;
+        min-width: 200px;
+        max-width: 50%;
+        margin-bottom: 10px;
+    }
+
+    .dropdown-button::after {
+        width: 90%;
     }
 
     .dropdown-content {

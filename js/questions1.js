@@ -115,7 +115,7 @@ const questions = [
             "./src/symonenko.png",
             "./src/kravchyk.jpg",
             "./src/chornovil.jpg",
-            "./src/kuchma.jpg"
+            "./src/kuchma.png"
         ],
         type: "radio"
     },
@@ -218,3 +218,4 @@ const questions = [
 ]
 
 answers = ["A", "B", "C", "A", "C", "D", ["D", "B", "C", "A"], ["A", "C"], "D", "B", "B", "D", ["B", "D", "F"], "B", "B", "C", "D", "C", "C", "D", "C"];
+// А, Б, В, Г, Ґ -> A, B, C, D, E еквивалентно

@@ -128,37 +128,81 @@ questions.forEach((question, index) => {
 
 const submitBtn1 = document.getElementById('submitBtn');
 const resultDiv1 = document.getElementById('result');
+const rightDiv = document.getElementById('right');
+const wrongDiv = document.getElementById('wrong');
+const skipDiv = document.getElementById('skip');
+const resultsDiv = document.getElementsByClassName('results')[0]
 
 submitBtn1.addEventListener('click', () => {
     let score = 0;
+    let wrongAnswers = 0;
+    let skipAnswers = 0;
+
+    document.querySelectorAll("p.quadro-answer").forEach(element => element.remove());
+
     clearParents()
     for (let i = 1; i <= answers.length; i++) {
         const selectedAnswer = Array.from(document.querySelectorAll(`input[name="q${i}"]:checked`)).map(input => input.value)
         let userOrder = Array.from(document.querySelectorAll(`select[name="q${i}"]`)).map(s => s.value);
 
-        if (answers[i - 1].length === 1) {
-            if (selectedAnswer[0] === answers[i - 1]) {
-                score++;
-                paintAnswers(i, 'correct')
+        if (selectedAnswer.length !== 0 || answers[i - 1].length >= 4) {
+            if (answers[i - 1].length === 1) {
+                if (selectedAnswer[0] === answers[i - 1]) {
+                    score++;
+                    paintAnswers(i, 'correct')
+                    paintQuestion(i, answers[i - 1], 1)
+                }
+                else {
+                    wrongAnswers++;
+                    paintAnswers(i, 'wrong')
+                    paintQuestion(i, answers[i - 1], 1)
+                }
+            } else if (answers[i - 1].length > 1 && answers[i - 1].length < 4) {
+                if (JSON.stringify(selectedAnswer) === JSON.stringify(answers[i - 1])) {// refactor later maybe
+                    score++;
+                    paintAnswers(i, 'correct')
+                    paintQuestion(i, answers[i - 1], 2)
+                }
+                else {
+                    wrongAnswers++;
+                    paintAnswers(i, 'wrong')
+                    paintQuestion(i, answers[i - 1], 2)
+                }
             }
-            else paintAnswers(i, 'wrong')
-        }else if (answers[i - 1].length > 1 && answers[i-1].length < 4) {
-            if (JSON.stringify(selectedAnswer) === JSON.stringify(answers[i - 1])) {// refactor later maybe
-                score++;
-                paintAnswers(i, 'correct')
+            else if (answers[i - 1].length === 4) {
+                if (JSON.stringify(userOrder) === JSON.stringify(answers[i - 1])) {// refactor later maybe  
+                    score++;
+                    paintAnswers(i, 'correct')
+                    if (`q${i}` === 'q7')
+                        paintQuestion(i, answers[i - 1], 4, true)
+                    else paintQuestion(i, answers[i - 1], 4)
+                }
+                else {
+                    wrongAnswers++;
+                    paintAnswers(i, 'wrong')
+                    if (`q${i}` === 'q7')
+                        paintQuestion(i, answers[i - 1], 4, true)
+                    else paintQuestion(i, answers[i - 1], 4)
+                }
             }
-            else paintAnswers(i, 'wrong')
         }
-        else if (answers[i - 1].length === 4) {
-            if (JSON.stringify(userOrder) === JSON.stringify(answers[i - 1])) {// refactor later maybe  
-                score++;
-                paintAnswers(i, 'correct')
-            }
-            else paintAnswers(i, 'wrong')
+        else {
+            skipAnswers++;
         }
+
+
     }
 
-    resultDiv1.innerHTML = `Результат: ${score} з ${answers.length}`;
+    resultDiv1.textContent = `Результат: ${score} з ${answers.length}`;
+    rightDiv.textContent = `Правильних: ${score}`
+    wrongDiv.textContent = `Неправильних: ${wrongAnswers}`
+    skipDiv.textContent = `Пропущено: ${skipAnswers}`
+    resultsDiv.classList.remove('hidden')
+    resultsDiv.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+
 });
 
 function clearParents() {
@@ -172,6 +216,50 @@ function clearParents() {
 function paintAnswers(index, class_name, answer = null) {
     const block = document.getElementById(`q${index}`)
     block.classList.add(class_name)
+}
 
+function paintQuestion(questionNumber, answerQ, count, specialTest = false) {
 
+    let answer;
+    let answerParent;
+    let block;
+
+    switch (count) {
+        case 1:
+            answer = document.getElementById(`q${questionNumber}${answerQ}`)
+            answerParent = answer.parentElement
+            answerParent.classList.add('right-answer')
+            break;
+        case 2:
+            answerQ.map((q) => {
+                answer = document.getElementById(`q${questionNumber}${q}`)
+                answerParent = answer.parentElement
+                answerParent.classList.add('right-answer')
+            })
+            break;
+        case 4:
+            block = document.getElementById(`q${questionNumber}`)
+
+            const div = document.createElement('p')
+            div.classList.add('quadro-answer')
+            if (specialTest) {
+                const letterToNumber = answerQ.map(q => q.charCodeAt(0) - 'A'.charCodeAt(0) + 1);
+                div.textContent = `Правильна відповідь: ${letterToNumber}`
+            }
+            else {
+                const letterMapping = {
+                    "A": "А",
+                    "B": "Б",
+                    "C": "В",
+                    "D": "Г",
+                    "E": "Ґ"
+                };
+
+                const transformed = answerQ.map(q => letterMapping[q] || q);
+                div.textContent = `Правильна відповідь: ${transformed}`
+            }
+
+            block.appendChild(div)
+            break;
+    }
 }
