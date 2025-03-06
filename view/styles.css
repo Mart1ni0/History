@@ -131,18 +131,21 @@ h1 {
     font-size: 2rem;
     text-align: center;
     margin: 1rem 0;
+    color: blue;
 }
 
 h2 {
     font-size: 1.8rem;
     margin-top: 2rem;
     margin-bottom: 1rem;
+    color: yellow;
 }
 
 h3 {
     font-size: 1.6rem;
     margin-top: 1.5rem;
     margin-bottom: 1rem;
+    color: blue;
 }
 
 p.question {
